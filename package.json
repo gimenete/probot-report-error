@@ -1,0 +1,36 @@
+{
+  "name": "probot-lifeguard",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Alberto Gimeno <gimenete@gmail.com>",
+  "license": "ISC",
+  "repository": "https://github.com/gimenete/probot-lifeguard.git",
+  "homepage": "https://github.com/gimenete/probot-lifeguard",
+  "bugs": "https://github.com/gimenete/probot-lifeguard/issues",
+  "keywords": [
+    "probot",
+    "github",
+    "probot-app"
+  ],
+  "scripts": {
+    "lint": "standard --fix",
+    "test": "jest && standard",
+    "test:watch": "jest --watch --notify --notifyMode=change --coverage"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^22.4.4",
+    "nodemon": "^1.17.2",
+    "probot": "^6.2.1",
+    "smee-client": "^1.0.1",
+    "standard": "^10.0.3"
+  },
+  "engines": {
+    "node": ">= 8.3.0"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  }
+}
