@@ -1,12 +1,12 @@
 {
-  "name": "probot-lifeguard",
+  "name": "probot-report-error",
   "version": "1.0.0",
   "description": "",
   "author": "Alberto Gimeno <gimenete@gmail.com>",
   "license": "ISC",
-  "repository": "https://github.com/gimenete/probot-lifeguard.git",
-  "homepage": "https://github.com/gimenete/probot-lifeguard",
-  "bugs": "https://github.com/gimenete/probot-lifeguard/issues",
+  "repository": "https://github.com/gimenete/probot-report-error.git",
+  "homepage": "https://github.com/gimenete/probot-report-error",
+  "bugs": "https://github.com/gimenete/probot-report-error/issues",
   "keywords": [
     "probot",
     "github",
