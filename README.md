@@ -80,7 +80,7 @@ module.exports = app => {
 
 ## Options
 
-Both the `lifeguard()` function and the `reportError` function support a few options. All of them are optional:
+Both the `lifeguard()` function and the `reportError()` functions support a few options. All of them are optional:
 
 | Option | Description | Default value | Example |
 | ------ | ----------- | ------------- | ------- |

@@ -12,7 +12,7 @@ const errorToString = (err) => {
  * Calculate a hash of the string representation of the error in order to
  * not create multiple issues for the same problem. The hash will be in the title
  * of the issue according to the requirements
- * @param {*} string
+ * @param {String} string
  */
 const hash = (string) => {
   return crypto.createHash('sha256')
@@ -23,7 +23,7 @@ const hash = (string) => {
 
 /**
  * Core functionality for handling an error
- * @param {*} context
+ * @param {Context} context
  * @param {*} err
  */
 const reportError = async (context, err, opts) => {
@@ -91,9 +91,9 @@ class Lifeguard {
 
   /**
    * Common functionality for invoking the original callback
-   * @param {*} context
-   * @param {*} callback
-   * @param {*} context
+   * @param {Context} context
+   * @param {Function} callback
+   * @param {Object} that
    */
   async invokeCallback (context, callback, that) {
     try {
@@ -116,7 +116,7 @@ class Lifeguard {
    * a regular function binded to an object and you invoke the function
    * then the "this" reference is kept. The same should happen in our
    * library, the ABI should not change when using probot-lifeguard
-   * @param {*} handler
+   * @param {Function} handler
    */
   guardApp (handler) {
     const self = this
@@ -133,7 +133,7 @@ class Lifeguard {
 
   /**
    * Use this method to wrap just one event handler
-   * @param {*} callback
+   * @param {Function} callback
    */
   guardHandler (callback) {
     const self = this
