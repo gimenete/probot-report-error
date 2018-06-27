@@ -1,7 +1,5 @@
 const crypto = require('crypto')
 
-const ERROR_LABEL = 'probot-error'
-
 class Lifeguard {
   constructor (options = {}) {
     this.title = options.title || 'Probot integration problem'
@@ -42,17 +40,21 @@ class Lifeguard {
    *
    * My first idea was to check context.payload.sender, but I couldn't find a way
    * in the probot API to know the login or id of the current bot to compare it with the sender
-   * information. So I'm just ignoring all issues with a particular label.
+   * information.
+   *
    * I could have added a parameter in the constructor to pass the login or id of the bot
    * but I preferred to keep things simple and prevent problems due to bad configuration.
+
+   * My second idea was to add always a special label but in octokit the issue is created
+   * first without labels and then labels are added, so I was not being able to ignore
+   * the "opened" event.
+   *
+   * Finally I'm just checking the issue title
    * @param {*} context
    */
   didIDoIt (context) {
     const { issue } = context.payload
-    if (issue && issue.labels.find(label => label.name === ERROR_LABEL)) {
-      return true
-    }
-    return false
+    return issue && issue.title.endsWith(this.title) && issue.title.match(/^\[[a-f0-9]{8}\]/)
   }
 
   /**
@@ -71,7 +73,6 @@ class Lifeguard {
     const q = [
       'sort:updated-desc',
       this.reopen ? '' : 'is:open',
-      'label:' + ERROR_LABEL,
       errCode
     ]
     .filter(Boolean)
@@ -96,8 +97,7 @@ class Lifeguard {
         'Occurrences: 1'
       ].join('\n\n')
       const title = `[${errCode}] ${this.title}`
-      const labels = [...this.labels, ERROR_LABEL]
-      await context.github.issues.create({owner, repo, title, body, labels})
+      await context.github.issues.create({owner, repo, title, body, labels: this.labels})
     }
   }
 

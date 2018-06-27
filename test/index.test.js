@@ -43,9 +43,8 @@ describe('lifeguard', () => {
         payload: {
           issue: {
             number: 42,
-            labels: [
-              { name: 'probot-error' }
-            ]
+            labels: [],
+            title: '[ef52c642] Probot integration problem'
           },
           repository: {
             owner: {login: 'foo'},
@@ -95,7 +94,8 @@ describe('lifeguard', () => {
         payload: {
           issue: {
             number: 42,
-            labels: []
+            labels: [],
+            title: ''
           },
           repository: {
             owner: {login: 'foo'},
@@ -153,11 +153,11 @@ describe('lifeguard', () => {
       appHandler(robot)
       await expect(robot._emit('xxx', context)).rejects.toThrow('Whoops')
       expect(github.search.issues).toHaveBeenCalledWith({
-        'q': 'sort:updated-desc is:open label:probot-error 85d8ae40'
+        'q': 'sort:updated-desc is:open 85d8ae40'
       })
       expect(github.issues.create).toHaveBeenCalledWith({
         'body': 'An error occurred\n\n```\nWhoops\n```\n\nOccurrences: 1',
-        'labels': ['probot-error'],
+        'labels': [],
         'owner': 'foo',
         'repo': 'bar',
         'title': '[85d8ae40] Probot integration problem'
@@ -182,7 +182,8 @@ describe('lifeguard', () => {
               items: [{
                 number: 112,
                 body: '... Occurrences: 1',
-                state: 'open'
+                state: 'open',
+                title: '[ef52c642] Probot integration problem'
               }]
             }
           }))
@@ -193,7 +194,8 @@ describe('lifeguard', () => {
         payload: {
           issue: {
             number: 42,
-            labels: []
+            labels: [],
+            title: ''
           },
           repository: {
             owner: {login: 'foo'},
@@ -213,7 +215,7 @@ describe('lifeguard', () => {
       appHandler(robot)
       await expect(robot._emit('xxx', context)).rejects.toThrow('Whoops')
       expect(github.search.issues).toHaveBeenCalledWith({
-        'q': 'sort:updated-desc is:open label:probot-error 85d8ae40'
+        'q': 'sort:updated-desc is:open 85d8ae40'
       })
       expect(github.issues.edit).toHaveBeenCalledWith({
         'body': '... Occurrences: 2',
@@ -242,7 +244,8 @@ describe('lifeguard', () => {
               items: [{
                 number: 112,
                 body: '... Occurrences: 1',
-                state: 'closed'
+                state: 'closed',
+                title: '[ef52c642] Probot integration problem'
               }]
             }
           }))
@@ -253,7 +256,8 @@ describe('lifeguard', () => {
         payload: {
           issue: {
             number: 42,
-            labels: []
+            labels: [],
+            title: ''
           },
           repository: {
             owner: {login: 'foo'},
@@ -273,7 +277,7 @@ describe('lifeguard', () => {
       appHandler(robot)
       await expect(robot._emit('xxx', context)).rejects.toThrow('Whoops')
       expect(github.search.issues).toHaveBeenCalledWith({
-        'q': 'sort:updated-desc label:probot-error 85d8ae40'
+        'q': 'sort:updated-desc 85d8ae40'
       })
       expect(github.issues.edit).toHaveBeenCalledWith({
         'body': '... Occurrences: 2',
@@ -313,7 +317,8 @@ describe('lifeguard', () => {
         payload: {
           issue: {
             number: 42,
-            labels: []
+            labels: [],
+            title: ''
           },
           repository: {
             owner: {login: 'foo'},
@@ -333,11 +338,11 @@ describe('lifeguard', () => {
       appHandler(robot)
       await expect(robot._emit('xxx', context)).rejects.toThrow('Whoops')
       expect(github.search.issues).toHaveBeenCalledWith({
-        'q': 'sort:updated-desc is:open label:probot-error 85d8ae40'
+        'q': 'sort:updated-desc is:open 85d8ae40'
       })
       expect(github.issues.create).toHaveBeenCalledWith({
         'body': 'Custom body\n\n```\nWhoops\n```\n\nOccurrences: 1',
-        'labels': ['custom-label', 'probot-error'],
+        'labels': ['custom-label'],
         'owner': 'foo',
         'repo': 'bar',
         'title': '[85d8ae40] Custom title'
