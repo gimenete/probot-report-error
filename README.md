@@ -30,7 +30,7 @@ module.exports = app => {
 };
 
 // after
-const lifeguard = require('lifeguard')
+const lifeguard = require('probot-lifeguard')
 const guard = lifeguard(/* options here */)
 
 module.exports = guard.guardApp(app => {
@@ -57,7 +57,7 @@ module.exports = app => {
 });
 ```
 
-## Options
+## Options
 
 The `lifeguard()` function supports a few options. All of them are optional:
 
