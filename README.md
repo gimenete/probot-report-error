@@ -1,20 +1,22 @@
-# Probot lifeguard
+# probot-report-error
 
 ![Lifeguard](help.png "Icon made by https://www.flaticon.com/authors/pixel-buddha from www.flaticon.com ")
 
-Probot lifeguard catches exceptions in your probot app and creates issues on your repo with
-as much information as possible.
+Use `probot-report-error` to catch errors in your probot app. `probot-report-error` will open
+an issue on your repo if something fails. For example if your app tries to load a config file
+and it is malformed.
 
 ## Installing
 
 ```
-npm install gimenete/probot-lifeguard
+npm install gimenete/probot-report-error
 ```
 
 ## Usage
 
-You can either wrap your entire app or just a single handler. Wrapping the entire app is
-the easiest way but internally modifies the probot instance.
+You can either wrap your entire app, just a single handler, or call the library manuall when there's
+an error. Wrapping the entire app is the easiest way but it internally modifies the probot instance
+which is not the most elegant solution, but it works perfectly.
 
 ### Wrapping the entire app
 
@@ -30,8 +32,8 @@ module.exports = app => {
 };
 
 // after
-const lifeguard = require('probot-lifeguard')
-const guard = lifeguard(/* options here */)
+const { lifeguard } = require('probot-report-error')
+const guard = lifeguard({/* options here */})
 
 module.exports = guard.guardApp(app => {
   app.on('*', async context => {
@@ -41,25 +43,44 @@ module.exports = guard.guardApp(app => {
 });
 ```
 
-### Wrapping only a handler
+### Wrapping only one handler
 
 Just wrap your handler in a call to `guard.guardHandler()`. Example:
 
 ```js
-const lifeguard = require('lifeguard')
-const guard = lifeguard(/* options here */)
+const { lifeguard } = require('probot-report-error')
+const guard = lifeguard({/* options here */})
 
 module.exports = app => {
   app.on('*', guard.guardHandler(async context => {
     app.log('Hey!')
     await context.config('welcome.yml')
+  }))
+});
+```
+
+### Calling the library directly
+
+Just call `reportError(context, error, [options])`.
+
+```js
+const { reportError } = require('probot-report-error')
+
+module.exports = app => {
+  app.on('*', async context => {
+    try {
+      app.log('Hey!')
+      await context.config('welcome.yml')
+    } catch (err) {
+      return reportError(context, err, {/* options here */})
+    }
   })
 });
 ```
 
 ## Options
 
-The `lifeguard()` function supports a few options. All of them are optional:
+Both the `lifeguard()` function and the `reportError` function support a few options. All of them are optional:
 
 | Option | Description | Default value | Example |
 | ------ | ----------- | ------------- | ------- |
